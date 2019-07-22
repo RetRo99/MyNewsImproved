@@ -1,6 +1,11 @@
 <resources>
+
+    <string name="tab_label1">TOP STORIES</string>
+    <string name="tab_label2">MOST POPULAR</string>
+    <string name="tab_label3">TECHNOLOGY</string>
+
     <string name="app_name">MyNewsImproved</string>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_main2">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>

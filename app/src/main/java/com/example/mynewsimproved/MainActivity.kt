@@ -1,6 +1,7 @@
 package com.example.mynewsimproved
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.GravityCompat
@@ -11,8 +12,13 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import com.example.mynewsimproved.dummy.DummyContent
+import com.google.android.material.tabs.TabLayout
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,11 +27,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -36,6 +37,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         navView.setNavigationItemSelectedListener(this)
+
+        val tabLayout:TabLayout = findViewById(R.id.tab_layout)
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label1))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label2))
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label3))
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+
+        val viewPager: ViewPager = findViewById(R.id.pager)
+        val  adapter:PagerAdapter =  PageAdapter(supportFragmentManager, tabLayout.tabCount, this)
+        viewPager.adapter = adapter
+
+        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                viewPager.currentItem = tab.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+
+
+
     }
 
     override fun onBackPressed() {
