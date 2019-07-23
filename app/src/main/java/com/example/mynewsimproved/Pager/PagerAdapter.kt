@@ -5,8 +5,10 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.example.mynewsimproved.PagerFragments.MostViewedStoriesFragment
 import com.example.mynewsimproved.R
 import com.example.mynewsimproved.PagerFragments.TechnologyFragment
+import com.example.mynewsimproved.PagerFragments.TopStoriesFragment
 
 class PagerAdapter(fm: FragmentManager, private val numberofTabs:Int, private val context: Context):FragmentStatePagerAdapter(fm) {
 
@@ -18,7 +20,13 @@ class PagerAdapter(fm: FragmentManager, private val numberofTabs:Int, private va
 
 
     override fun getItem(position: Int): Fragment {
-        Log.d("hey", "there")
+        when(position){
+            0 -> return TopStoriesFragment()
+            1 -> return MostViewedStoriesFragment()
+            2 -> return TechnologyFragment()
+
+        }
+        Log.d("position", position.toString())
         return TechnologyFragment()
     }
 
