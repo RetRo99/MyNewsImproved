@@ -23,6 +23,9 @@
     <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:background="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorAccent"
             android:layout_height="wrap_content"/>
 
     </androidx.viewpager.widget.ViewPager>

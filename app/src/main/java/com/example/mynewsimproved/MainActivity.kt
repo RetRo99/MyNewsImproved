@@ -1,5 +1,6 @@
 package com.example.mynewsimproved
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -34,15 +35,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         navView.setNavigationItemSelectedListener(this)
 
-        val tabLayout:TabLayout = findViewById(R.id.tab_layout)
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label1))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label2))
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_label3))
-        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+
 
         val viewPager: ViewPager = findViewById(R.id.pager)
         val  adapter: PagerAdapter =
-            com.example.mynewsimproved.Pager.PagerAdapter(supportFragmentManager, tabLayout.tabCount, this)
+            com.example.mynewsimproved.Pager.PagerAdapter(supportFragmentManager, 3, this)
         viewPager.adapter = adapter
 
 
@@ -72,6 +69,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            R.id.action_notification -> {
+                val searchIntent = Intent(this, SearchActivity::class.java)
+                startActivity(searchIntent)
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
