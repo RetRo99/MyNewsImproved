@@ -1,9 +1,6 @@
 package com.example.mynewsimproved
 
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -14,7 +11,6 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.example.mynewsimproved.dummy.DummyContent
 import com.google.android.material.tabs.TabLayout
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
@@ -45,7 +41,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
         val viewPager: ViewPager = findViewById(R.id.pager)
-        val  adapter:PagerAdapter =  PageAdapter(supportFragmentManager, tabLayout.tabCount, this)
+        val  adapter: PagerAdapter =
+            com.example.mynewsimproved.Pager.PagerAdapter(supportFragmentManager, tabLayout.tabCount, this)
         viewPager.adapter = adapter
 
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))

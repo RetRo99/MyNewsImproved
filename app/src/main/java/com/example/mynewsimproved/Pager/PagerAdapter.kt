@@ -1,13 +1,14 @@
-package com.example.mynewsimproved
+package com.example.mynewsimproved.Pager
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import com.example.mynewsimproved.R
+import com.example.mynewsimproved.PagerFragments.TechnologyFragment
 
-class PageAdapter(fm: FragmentManager, private val numberofTabs:Int, private val context: Context):FragmentStatePagerAdapter(fm) {
+class PagerAdapter(fm: FragmentManager, private val numberofTabs:Int, private val context: Context):FragmentStatePagerAdapter(fm) {
 
     private val TAB_TITLES = arrayOf(
         R.string.tab_label1,
