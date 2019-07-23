@@ -29,7 +29,7 @@ class TechnologyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.technology_article_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_main, container, false)
 
         // Set the adapter
         if (view is RecyclerView) {
