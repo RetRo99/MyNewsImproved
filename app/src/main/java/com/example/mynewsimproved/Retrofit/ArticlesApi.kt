@@ -1,8 +1,8 @@
 package com.example.mynewsimproved.Retrofit
 
-import com.example.mynewsoc.MostViewedModel.MostViewedResponse
-import com.example.mynewsoc.SearchedArticle.SearchResponse
-import com.example.mynewsoc.TopStoriesModel.TopStoryResponse
+import com.example.mynewsimproved.ArticleModel.MostViewedResponse
+import com.example.mynewsimproved.ArticleModel.SearchResponse
+import com.example.mynewsimproved.ArticleModel.TopStoryResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
