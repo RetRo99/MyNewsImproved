@@ -4,7 +4,7 @@
     <string name="tab_label2">MOST POPULAR</string>
     <string name="tab_label3">TECHNOLOGY</string>
 
-    <string name="app_name">MyNewsImproved</string>
+    <string name="app_name">MyNews</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_web">Article</string>
     <string name="title_activity_search">Search</string>

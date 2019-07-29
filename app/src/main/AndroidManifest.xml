@@ -21,9 +21,6 @@
             android:name=".WebViewActivity"
             android:label="@string/title_activity_web"
             android:theme="@style/AppTheme.NoActionBar">
-        <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.mynewsimproved.MainActivity"/>
     </activity>
         <activity
                 android:name=".SearchActivity"
@@ -32,7 +29,20 @@
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.mynewsimproved.MainActivity"/>
+        </activity><activity
+                android:name=".SearchResult"
+                android:label="@string/title_activity_search"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.mynewsimproved.SearchActivity"/>
         </activity>
+        <receiver android:name=".BroadcastReceiver$AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="SHOW_NEW_ARTICLES"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

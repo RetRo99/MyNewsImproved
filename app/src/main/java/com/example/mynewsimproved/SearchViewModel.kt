@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.mynewsimproved.ArticleModel.SearchResponse
-import com.example.mynewsoc.Repository.NewsRepository
+import com.example.mynewsimproved.Repository.NewsRepository
 
 class SearchViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -18,8 +18,12 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
         repo.loadSearchedArticles(query,beginDate,endDate,sections)
     }
 
-    fun getSearchedArticles():MutableLiveData<ArrayList<SearchResponse.ResponseSearch.SearchedArticle>>{
+    fun getSearchedArticles():MutableLiveData<ArrayList<SearchResponse.ResponseSearch.SearchedArticle>>?{
         return repo.getSearchedArticles()
+    }
+
+    fun setSearchedArticles(){
+        repo.setSearchedArticles()
     }
 
 }

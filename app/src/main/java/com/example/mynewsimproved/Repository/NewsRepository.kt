@@ -1,4 +1,4 @@
-package com.example.mynewsoc.Repository
+package com.example.mynewsimproved.Repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -31,6 +31,9 @@ object NewsRepository {
 
     fun getSearchedArticles(): MutableLiveData<ArrayList<SearchResponse.ResponseSearch.SearchedArticle>> {
         return searchedArticles
+    }
+    fun setSearchedArticles() {
+         searchedArticles.postValue(null)
     }
 
 

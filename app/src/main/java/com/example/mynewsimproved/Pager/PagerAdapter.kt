@@ -9,8 +9,12 @@ import com.example.mynewsimproved.PagerFragments.MostViewedStoriesFragment
 import com.example.mynewsimproved.R
 import com.example.mynewsimproved.PagerFragments.TechnologyFragment
 import com.example.mynewsimproved.PagerFragments.TopStoriesFragment
+import org.intellij.lang.annotations.JdkConstants
+
+
 
 class PagerAdapter(fm: FragmentManager, private val numberofTabs:Int, private val context: Context):FragmentStatePagerAdapter(fm) {
+
 
     private val TAB_TITLES = arrayOf(
         R.string.tab_label1,
@@ -29,6 +33,8 @@ class PagerAdapter(fm: FragmentManager, private val numberofTabs:Int, private va
         Log.d("position", position.toString())
         return TechnologyFragment()
     }
+
+
 
 
     override fun getCount(): Int {

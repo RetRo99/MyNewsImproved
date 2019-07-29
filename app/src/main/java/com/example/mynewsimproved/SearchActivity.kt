@@ -1,7 +1,9 @@
 package com.example.mynewsimproved
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,10 +12,15 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import com.example.mynewsoc.Utils.createOrCancelAlarm
 import kotlinx.android.synthetic.main.activity_search.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import android.text.Editable
+import android.text.TextWatcher
+
+
 
 
 class SearchActivity : AppCompatActivity() {
@@ -48,8 +55,88 @@ class SearchActivity : AppCompatActivity() {
         layout.visibility = View.GONE
         searchButton.visibility = View.GONE
 
+
+        var sections = String()
+        val checkboxes: ArrayList<CheckBox> = ArrayList()
+        checkboxes.add(checkboxArts)
+        checkboxes.add(checkboxBusiness)
+        checkboxes.add(checkboxEntrepreneurs)
+        checkboxes.add(checkboxPolitics)
+        checkboxes.add(checkboxSports)
+        checkboxes.add(checkboxTravel)
+
+
+        val sharedPrefSearchPreferences: SharedPreferences = getSharedPreferences("search_params", Context.MODE_PRIVATE)
+        val stringList = sharedPrefSearchPreferences.getString("sections", null)?.split("\\s".toRegex())
+
+            for (item in checkboxes) {
+                if (stringList != null) {
+                    item.setOnClickListener{
+                        switchWidget.isChecked = false
+                    }
+                    for(string in stringList)
+                        if(string == item.text.toString()) item.isChecked = true
+                }
+            }
+        val queryString = sharedPrefSearchPreferences.getString("query", null).toString()
+
+        if(queryString != "null") queryEditText.setText(queryString)
+
+
+        if(sharedPrefSearchPreferences.getBoolean("isChecked", false)) switchWidget.isChecked = true
+        queryEditText.addTextChangedListener(object : TextWatcher {
+
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int,
+                count: Int, after: Int
+            ) {
+            }
+
+            override fun onTextChanged(
+                s: CharSequence, start: Int,
+                before: Int, count: Int
+            ) {
+                switchWidget.isChecked = false
+            }
+        })
+
+
         switchWidget.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) Toast.makeText(this, "Feature not yet implemented", Toast.LENGTH_SHORT).show()
+            if (isChecked) {
+
+
+                for (item in checkboxes) {
+                    if (item.isChecked) {
+                        val section = item.text.toString()
+                        sections = "$sections $section"
+                    }
+
+                }
+
+            if (sections == "") {
+                    Toast.makeText(this, "You should pick at least one section", Toast.LENGTH_LONG).show()
+                    switchWidget.isChecked = false
+                } else {
+                val query = queryEditText.text.toString()
+
+                    sharedPrefSearchPreferences.edit().putString("query", query).apply()
+                    sharedPrefSearchPreferences.edit().putString("sections", sections).apply()
+                    sharedPrefSearchPreferences.edit().putBoolean("isChecked", true).apply()
+                    createOrCancelAlarm(this,true)
+                    Toast.makeText(this, "You will be reminded tomorrow at 7.00", Toast.LENGTH_LONG).show()
+
+
+
+
+
+            }
+            }else{
+                createOrCancelAlarm(this, false)
+                Toast.makeText(this, "Notifications disabled", Toast.LENGTH_LONG).show()
+
+            }
 
         }
 

@@ -10,6 +10,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -17,7 +18,8 @@ import com.google.android.material.tabs.TabLayout
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
 
 
-
+    private lateinit var   adapter: PagerAdapter
+    private lateinit var   viewPager: ViewPager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,8 +39,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 
-        val viewPager: ViewPager = findViewById(R.id.pager)
-        val  adapter: PagerAdapter =
+         viewPager = findViewById(R.id.pager)
+        adapter =
             com.example.mynewsimproved.Pager.PagerAdapter(supportFragmentManager, 3, this)
         viewPager.adapter = adapter
 
@@ -64,13 +66,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         return when (item.itemId) {
             R.id.action_settings -> true
             R.id.action_notification -> {
                 val searchIntent = Intent(this, SearchActivity::class.java)
+                startActivity(searchIntent)
+                true
+            }
+            R.id.searchButton -> {
+                val searchIntent = Intent(this, SearchActivity::class.java)
+                searchIntent.putExtra("Notification", false)
                 startActivity(searchIntent)
                 true
             }
@@ -79,26 +85,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
+
+        val tabs = findViewById<View>(R.id.tab_layout) as TabLayout
         when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
+            R.id.nav_technology -> {
+               tabs.getTabAt(2)?.select()
             }
-            R.id.nav_gallery -> {
+            R.id.nav_mostviewed -> {
+                tabs.getTabAt(1)?.select()
+
+
+
 
             }
-            R.id.nav_slideshow -> {
+            R.id.nav_topstories -> {
+                tabs.getTabAt(0)?.select()
+
+
 
             }
-            R.id.nav_tools -> {
+            R.id.nav_notifications ->{
+                val searchIntent = Intent(this, SearchActivity::class.java)
+                startActivity(searchIntent)
 
             }
-            R.id.nav_share -> {
 
-            }
-            R.id.nav_send -> {
-
-            }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)

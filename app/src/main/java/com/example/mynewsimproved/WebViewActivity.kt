@@ -2,7 +2,7 @@ package com.example.mynewsimproved
 
 import android.os.Bundle
 import android.webkit.WebView
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_web_view_activity.*
 import android.webkit.WebViewClient
@@ -32,7 +32,8 @@ class WebViewActivity : AppCompatActivity() {
         val mToolbar = findViewById<androidx.appcompat.widget.Toolbar?>(R.id.activity_toolbar)
 
         setSupportActionBar(mToolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val swipeLayout = findViewById<SwipeRefreshLayout>(R.id.swipeLayout)
         swipeLayout.isRefreshing = true
@@ -44,6 +45,11 @@ class WebViewActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
 }

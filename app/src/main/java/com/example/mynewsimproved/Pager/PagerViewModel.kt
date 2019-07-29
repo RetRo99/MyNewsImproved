@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.mynewsimproved.ArticleModel.MostViewedArticle
 import com.example.mynewsimproved.ArticleModel.TopStoryArticle
-import com.example.mynewsoc.Repository.NewsRepository
+import com.example.mynewsimproved.Repository.NewsRepository
 
 class PagerViewModel(application: Application) : AndroidViewModel(application) {
 

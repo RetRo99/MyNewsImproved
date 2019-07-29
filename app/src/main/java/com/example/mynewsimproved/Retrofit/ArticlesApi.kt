@@ -20,10 +20,10 @@ interface ArticlesApi {
 
     @GET("search/v2/articlesearch.json")
     fun getSearchedArticles(
-        @Query("q") query: String,
+        @Query("q") query: String?,
         @Query("begin_date") beginDate: String?,
         @Query("end_date") endDate: String?,
-        @Query("fq") sections: String
+        @Query("fq") sections: String?
     ): Call<SearchResponse>
 
 
