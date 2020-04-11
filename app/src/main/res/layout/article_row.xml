@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<card_view:androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
 
-        android:orientation="horizontal"
+        android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_margin="5dp"
+        android:orientation="horizontal"
         card_view:cardCornerRadius="5dp"
         card_view:contentPadding="10dp">
 
-    <LinearLayout
-            android:orientation="horizontal"
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -23,58 +19,54 @@
                 android:id="@+id/imageView"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:layout_gravity="center"/>
-
-        <LinearLayout
-                android:layout_width="match_parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+                android:id="@+id/sectionSubSectionTextView"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="start"
+                android:text="section title here"
+                android:textAlignment="textStart"
+                card_view:layout_constraintStart_toEndOf="@id/imageView"
+                card_view:layout_constraintTop_toTopOf="parent"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
+        <TextView
+                android:id="@+id/dateCreatedTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:text="date here"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="12sp"
+                android:layout_marginEnd="10dp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                android:textStyle="bold" />
 
-                <TextView
-                        android:id="@+id/sectionSubSectionTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="2"
-                        android:gravity="start"
-                        android:layout_marginTop="10dp"
-                        android:text="section title here"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textAlignment="textStart"/>
+        <TextView
+                android:id="@+id/abstractTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                card_view:layout_constraintStart_toEndOf="@id/imageView"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@id/sectionSubSectionTextView"
+                android:text="start of article here and define line limit to avoid too much text displayed  666666"
+                android:textSize="15sp" />
 
-                <TextView
-                        android:id="@+id/dateCreatedTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:lines="1"
-                        android:text="date here"
-                        android:textAlignment="textEnd"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
 
-            </LinearLayout>
 
-            <TextView
-                    android:id="@+id/abstractTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="bottom"
-                    android:layout_weight="1"
-                    android:lines="2"
-                    android:paddingBottom="5dp"
-                    android:text="start of article here and define line limit to avoid too much text displayed  666666"
-                    android:textSize="15sp" />
-        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
-</card_view:androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>

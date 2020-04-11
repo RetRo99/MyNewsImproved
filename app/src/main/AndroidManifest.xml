@@ -10,7 +10,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme.NoActionBar">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.mainactivity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -18,24 +18,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WebViewActivity"
+            android:name=".ui.WebViewActivity"
             android:label="@string/title_activity_web"
             android:theme="@style/AppTheme.NoActionBar">
     </activity>
         <activity
-                android:name=".SearchActivity"
+                android:name=".ui.SearchActivity"
                 android:label="@string/title_activity_search"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.example.mynewsimproved.MainActivity"/>
+                    android:value="com.example.mynewsimproved.ui.mainactivity.MainActivity"/>
         </activity><activity
-                android:name=".SearchResult"
+                android:name=".ui.SearchResult"
                 android:label="@string/title_activity_search"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.example.mynewsimproved.SearchActivity"/>
+                    android:value="com.example.mynewsimproved.ui.SearchActivity"/>
         </activity>
         <receiver android:name=".BroadcastReceiver$AlarmReceiver">
             <intent-filter>
