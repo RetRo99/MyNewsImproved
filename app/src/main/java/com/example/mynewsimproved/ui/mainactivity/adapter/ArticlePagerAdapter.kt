@@ -5,8 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.mynewsimproved.R
-import com.example.mynewsimproved.ui.articleFragment.ArticleFragment
-import com.example.mynewsimproved.ui.articleFragment.types.ArticleType
+import com.example.mynewsimproved.ui.article.ArticleFragment
 
 
 class ArticlePagerAdapter(

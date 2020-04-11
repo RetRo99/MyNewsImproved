@@ -1,9 +1,7 @@
-package com.example.mynewsimproved.ui.articleFragment
+package com.example.mynewsimproved.ui.article
 
-import android.util.Log
-import android.widget.Toast
 import com.example.mynewsimproved.api.repository.NewsRepository
-import com.example.mynewsimproved.ui.articleFragment.types.ArticleType
+import com.example.mynewsimproved.ui.article.types.ArticleType
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy

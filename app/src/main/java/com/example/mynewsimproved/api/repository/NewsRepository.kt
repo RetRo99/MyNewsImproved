@@ -1,11 +1,10 @@
 package com.example.mynewsimproved.api.repository
 
-import android.util.Log
 import com.example.mynewsimproved.api.response.MostViewedResponse
 import com.example.mynewsimproved.api.response.TopStoryResponse
 import com.example.mynewsimproved.api.retrofit.ApiClient
-import com.example.mynewsimproved.ui.articleFragment.model.UiArticle
-import com.example.mynewsimproved.ui.articleFragment.types.ArticleType
+import com.example.mynewsimproved.ui.article.model.UiArticle
+import com.example.mynewsimproved.ui.article.types.ArticleType
 import io.reactivex.Single
 
 

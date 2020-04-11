@@ -1,15 +1,14 @@
-package com.example.mynewsimproved.ui.articleFragment
+package com.example.mynewsimproved.ui.article
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
-import com.example.mynewsimproved.ui.articleFragment.adapter.ArticleAdapter
-import com.example.mynewsimproved.ui.articleFragment.model.UiArticle
-import com.example.mynewsimproved.ui.articleFragment.types.ArticleType
+import com.example.mynewsimproved.ui.article.adapter.ArticleAdapter
+import com.example.mynewsimproved.ui.article.model.UiArticle
+import com.example.mynewsimproved.ui.article.types.ArticleType
 import kotlinx.android.synthetic.main.fragment_article.*
 
 class ArticleFragment : Fragment(), ArticleView {
