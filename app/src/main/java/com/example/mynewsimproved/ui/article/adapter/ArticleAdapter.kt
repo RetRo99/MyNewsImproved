@@ -1,22 +1,20 @@
-package com.example.mynewsimproved.ui.articleFragment.adapter
+package com.example.mynewsimproved.ui.article.adapter
 
-import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynewsimproved.R
-import com.example.mynewsimproved.ui.WebViewActivity
-import com.example.mynewsimproved.ui.articleFragment.model.UiArticle
+import com.example.mynewsimproved.ui.article.model.UiArticle
 import com.example.mynewsimproved.utils.inflate
 import com.example.mynewsimproved.utils.loadImage
 import kotlinx.android.synthetic.main.article_row.view.*
 
 class ArticleAdapter(
-    private var articles: List<UiArticle>
+    private var articles: List<UiArticle>, val action: (String) -> Unit
 ) : RecyclerView.Adapter<ArticleAdapter.ArticleVH>() {
 
 
-    class ArticleVH(private val view: View) : RecyclerView.ViewHolder(view) {
+    inner class ArticleVH(private val view: View) : RecyclerView.ViewHolder(view) {
 
         fun bindArticle(article: UiArticle) {
             view.apply {
@@ -26,10 +24,7 @@ class ArticleAdapter(
                 imageView.loadImage(article.photoUrl)
 
                 setOnClickListener {
-                    val webViewIntent = Intent(context, WebViewActivity::class.java)
-                    webViewIntent.putExtra("WEBSITE_ADDRESS", article.webUrl)
-                    context?.startActivity(webViewIntent)
-
+                    action(article.webUrl)
                 }
             }
 

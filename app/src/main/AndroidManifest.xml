@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.WebViewActivity"
+            android:name=".ui.web.WebViewFragment"
             android:label="@string/title_activity_web"
             android:theme="@style/AppTheme.NoActionBar">
     </activity>

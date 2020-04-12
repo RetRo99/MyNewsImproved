@@ -1,5 +1,6 @@
 package com.example.mynewsimproved.ui.article
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import com.example.mynewsimproved.R
 import com.example.mynewsimproved.ui.article.adapter.ArticleAdapter
 import com.example.mynewsimproved.ui.article.model.UiArticle
 import com.example.mynewsimproved.ui.article.types.ArticleType
+import com.example.mynewsimproved.ui.mainactivity.MainView
 import kotlinx.android.synthetic.main.fragment_article.*
 
 class ArticleFragment : Fragment(), ArticleView {
@@ -16,6 +18,17 @@ class ArticleFragment : Fragment(), ArticleView {
     private lateinit var storyType: String
     private lateinit var sealedArticleType: ArticleType
     private lateinit var presenter: ArticleFragmentPresenter
+    private lateinit var parentView: MainView
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainView) {
+            parentView = context as MainView
+        } else {
+            throw Exception("must implement mainview interface")
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,14 +54,16 @@ class ArticleFragment : Fragment(), ArticleView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = ArticleFragmentPresenter(this)
+        presenter = ArticleFragmentPresenter(this, parentView)
 
 
         presenter.onViewCreated(sealedArticleType)
     }
 
     override fun showData(articles: List<UiArticle>) {
-        recycleViewArticles.adapter = ArticleAdapter(articles)
+        recycleViewArticles.adapter = ArticleAdapter(articles){
+            presenter.onArticleClicked(it)
+        }
     }
 
     override fun onDestroy() {

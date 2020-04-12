@@ -4,19 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.example.mynewsimproved.ui.mainactivity.adapter.ArticlePagerAdapter
 import com.example.mynewsimproved.R
 import com.example.mynewsimproved.ui.SearchActivity
+import com.example.mynewsimproved.ui.web.WebViewFragment
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,15 +33,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
-
-        pager.adapter =
-            ArticlePagerAdapter(
-                supportFragmentManager,
-                3,
-                this
-            )
-        pager.offscreenPageLimit = 3
 
     }
 
@@ -61,7 +52,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         return when (item.itemId) {
             R.id.action_settings -> true
             R.id.action_notification -> {
@@ -80,21 +70,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-
-        val tabs = findViewById<View>(R.id.tab_layout) as TabLayout
         when (item.itemId) {
             R.id.nav_technology -> {
-                tabs.getTabAt(2)?.select()
+                tab_layout?.getTabAt(2)?.select()
             }
             R.id.nav_mostviewed -> {
-                tabs.getTabAt(1)?.select()
-
-
+                tab_layout?.getTabAt(1)?.select()
             }
             R.id.nav_topstories -> {
-                tabs.getTabAt(0)?.select()
-
-
+                tab_layout?.getTabAt(0)?.select()
             }
             R.id.nav_notifications -> {
                 val searchIntent = Intent(this, SearchActivity::class.java)
@@ -104,5 +88,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun fromHomeToWeb(url: String) {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, WebViewFragment.newInstance(url)).addToBackStack(null).commit()
+
     }
 }

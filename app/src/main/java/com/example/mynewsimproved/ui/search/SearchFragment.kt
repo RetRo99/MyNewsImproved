@@ -1,4 +1,4 @@
-package com.example.mynewsimproved.ui
+package com.example.mynewsimproved.ui.search
 
 import android.app.DatePickerDialog
 import android.content.Context
@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.mynewsimproved.utils.createOrCancelAlarm
 import kotlinx.android.synthetic.main.activity_search.*
 import java.text.SimpleDateFormat
@@ -17,33 +16,39 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.SearchResult
 
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
     private lateinit var startCalendar: Calendar
     private lateinit var endCalendar: Calendar
     private var startDateConvertedString: String? = null
     private var endDateConvertedString: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
-        val mToolbar = findViewById<androidx.appcompat.widget.Toolbar?>(R.id.activity_toolbar)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.activity_search, container, false)
 
-        setSupportActionBar(mToolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        if (!intent.getBooleanExtra("Notification", true)) setSearchScreen()
-        else {
-            setNotificationScreen()
-        }
+//        if (!intent.getBooleanExtra("Notification", true)) setSearchScreen()
+//        else {
+//            setNotificationScreen()
+//        }
     }
 
     private fun setNotificationScreen() {
-        val layout: LinearLayout =
-            findViewById(R.id.fragment_base_search_notification_date_management_linear_layout)
+        val layout: LinearLayout = fragment_base_search_notification_date_management_linear_layout
         layout.visibility = View.GONE
         searchButton.visibility = View.GONE
 
@@ -58,7 +63,7 @@ class SearchActivity : AppCompatActivity() {
         checkboxes.add(checkboxTravel)
 
 
-        val sharedPrefSearchPreferences: SharedPreferences = getSharedPreferences("search_params", Context.MODE_PRIVATE)
+        val sharedPrefSearchPreferences: SharedPreferences = requireContext().getSharedPreferences("search_params", Context.MODE_PRIVATE)
         val stringList = sharedPrefSearchPreferences.getString("sections", null)?.split("\\s".toRegex())
 
             for (item in checkboxes) {
@@ -108,7 +113,7 @@ class SearchActivity : AppCompatActivity() {
                 }
 
             if (sections == "") {
-                    Toast.makeText(this, "You should pick at least one section", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "You should pick at least one section", Toast.LENGTH_LONG).show()
                     switchWidget.isChecked = false
                 } else {
                 val query = queryEditText.text.toString()
@@ -116,13 +121,13 @@ class SearchActivity : AppCompatActivity() {
                     sharedPrefSearchPreferences.edit().putString("query", query).apply()
                     sharedPrefSearchPreferences.edit().putString("sections", sections).apply()
                     sharedPrefSearchPreferences.edit().putBoolean("isChecked", true).apply()
-                    createOrCancelAlarm(this,true)
-                    Toast.makeText(this, "You will be reminded tomorrow at 7.00", Toast.LENGTH_LONG).show()
+                    createOrCancelAlarm(requireContext(),true)
+                    Toast.makeText(requireContext(), "You will be reminded tomorrow at 7.00", Toast.LENGTH_LONG).show()
 
             }
             }else{
-                createOrCancelAlarm(this, false)
-                Toast.makeText(this, "Notifications disabled", Toast.LENGTH_LONG).show()
+                createOrCancelAlarm(requireContext(), false)
+                Toast.makeText(requireContext(), "Notifications disabled", Toast.LENGTH_LONG).show()
 
             }
 
@@ -150,7 +155,7 @@ class SearchActivity : AppCompatActivity() {
 
         startEditText.setOnClickListener {
             DatePickerDialog(
-                this, startDate, startCalendar
+                requireContext(), startDate, startCalendar
                     .get(Calendar.YEAR), startCalendar.get(Calendar.MONTH),
                 startCalendar.get(Calendar.DAY_OF_MONTH)
             ).show()
@@ -158,7 +163,7 @@ class SearchActivity : AppCompatActivity() {
 
         endEditText.setOnClickListener {
             DatePickerDialog(
-                this, endDate, startCalendar
+                requireContext(), endDate, startCalendar
                     .get(Calendar.YEAR), startCalendar.get(Calendar.MONTH),
                 startCalendar.get(Calendar.DAY_OF_MONTH)
             ).show()
@@ -207,17 +212,17 @@ class SearchActivity : AppCompatActivity() {
 
         if (sections == "" && query == "") {
             Toast.makeText(
-                this,
+                requireContext(),
                 "You should enter at least one parameter and pick at least one section",
                 Toast.LENGTH_LONG
             ).show()
         } else if (sections == "") {
-            Toast.makeText(this, "You should pick at least one section", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "You should pick at least one section", Toast.LENGTH_LONG).show()
         } else if (query == "") {
-            Toast.makeText(this, "You should enter at least one parameter", Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), "You should enter at least one parameter", Toast.LENGTH_LONG).show()
 
         } else {
-            val searchResultIntent = Intent(this, SearchResult::class.java)
+            val searchResultIntent = Intent(requireContext(), SearchResult::class.java)
             searchResultIntent.putExtra("query", query)
             searchResultIntent.putExtra("startDateConvertedString", startDateConvertedString)
             searchResultIntent.putExtra("endDateConvertedString", endDateConvertedString)

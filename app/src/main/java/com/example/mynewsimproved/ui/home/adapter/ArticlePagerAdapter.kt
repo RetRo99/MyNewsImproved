@@ -1,4 +1,4 @@
-package com.example.mynewsimproved.ui.mainactivity.adapter
+package com.example.mynewsimproved.ui.home.adapter
 
 import android.content.Context
 import androidx.fragment.app.Fragment
