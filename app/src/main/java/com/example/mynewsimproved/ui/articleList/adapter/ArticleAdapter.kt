@@ -1,13 +1,13 @@
-package com.example.mynewsimproved.ui.article.adapter
+package com.example.mynewsimproved.ui.articleList.adapter
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mynewsimproved.R
-import com.example.mynewsimproved.ui.article.model.UiArticle
+import com.example.mynewsimproved.ui.articleList.model.UiArticle
 import com.example.mynewsimproved.utils.inflate
 import com.example.mynewsimproved.utils.loadImage
-import kotlinx.android.synthetic.main.article_row.view.*
+import kotlinx.android.synthetic.main.item_article_row.view.*
 
 class ArticleAdapter(
     private var articles: List<UiArticle>, val action: (String) -> Unit
@@ -33,7 +33,7 @@ class ArticleAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleVH {
-        val inflatedView = parent.inflate(R.layout.article_row, false)
+        val inflatedView = parent.inflate(R.layout.item_article_row, false)
         return ArticleVH(inflatedView)
     }
 

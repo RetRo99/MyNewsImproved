@@ -1,6 +1,5 @@
 package com.example.mynewsimproved.ui.mainactivity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,7 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.mynewsimproved.R
-import com.example.mynewsimproved.ui.SearchActivity
+import com.example.mynewsimproved.ui.search.SearchFragment
+import com.example.mynewsimproved.ui.searchResult.SearchResult
+import com.example.mynewsimproved.ui.searchResult.model.SearchParam
 import com.example.mynewsimproved.ui.web.WebViewFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -52,21 +53,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            R.id.action_notification -> {
-                val searchIntent = Intent(this, SearchActivity::class.java)
-                startActivity(searchIntent)
-                true
-            }
-            R.id.searchButton -> {
-                val searchIntent = Intent(this, SearchActivity::class.java)
-                searchIntent.putExtra("Notification", false)
-                startActivity(searchIntent)
-                true
-            }
+        when (item.itemId) {
+            R.id.action_settings -> true // TODO to settings
+            R.id.action_notification -> toNotificationScreen()
+            R.id.searchButton -> toSearchFragment()
             else -> super.onOptionsItemSelected(item)
         }
+        return true
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -81,8 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 tab_layout?.getTabAt(0)?.select()
             }
             R.id.nav_notifications -> {
-                val searchIntent = Intent(this, SearchActivity::class.java)
-                startActivity(searchIntent)
+                toNotificationScreen()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -90,9 +82,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    override fun fromSearchToSearchResult(searchParam: SearchParam) {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, SearchResult.newInstance(searchParam)).addToBackStack(null)
+            .commit()
+    }
+
+    private fun toNotificationScreen() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, SearchFragment.newInstance())
+            .addToBackStack(null).commit()
+    }
+
+    private fun toSearchFragment() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, SearchFragment.newInstance( ))
+            .addToBackStack(null).commit()
+    }
+
     override fun fromHomeToWeb(url: String) {
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, WebViewFragment.newInstance(url)).addToBackStack(null).commit()
+            .add(R.id.fragment_container, WebViewFragment.newInstance(url)).addToBackStack(null)
+            .commit()
 
     }
 }

@@ -1,4 +1,4 @@
-package com.example.mynewsimproved.ui.article.model
+package com.example.mynewsimproved.ui.articleList.model
 
 data class UiArticle(
     val abstract: String,

@@ -47,4 +47,9 @@
     <string name="title_activity_search_result">Search Result</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="toast_one_section_and_parimeter">You should enter at least one parameter and pick at least one section</string>
+    <string name="toast_one_parameter">You should enter at least one parameter</string>
+    <string name="toast_one_section">You should pick at least one section</string>
+    <string name="no_results">No results</string>
+    <string name="try_again_different_params">Try searching with different parameters</string>
 </resources>

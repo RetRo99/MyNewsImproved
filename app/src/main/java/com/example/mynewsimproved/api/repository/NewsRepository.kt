@@ -1,10 +1,12 @@
 package com.example.mynewsimproved.api.repository
 
 import com.example.mynewsimproved.api.response.MostViewedResponse
+import com.example.mynewsimproved.api.response.SearchResponse
 import com.example.mynewsimproved.api.response.TopStoryResponse
 import com.example.mynewsimproved.api.retrofit.ApiClient
-import com.example.mynewsimproved.ui.article.model.UiArticle
-import com.example.mynewsimproved.ui.article.types.ArticleType
+import com.example.mynewsimproved.ui.articleList.model.UiArticle
+import com.example.mynewsimproved.ui.articleList.types.ArticleType
+import com.example.mynewsimproved.ui.searchResult.model.SearchParam
 import io.reactivex.Single
 
 
@@ -21,14 +23,33 @@ object NewsRepository {
     }
 
     fun loadSearchedArticles(
-        query: String,
-        beginDate: String?,
-        endDate: String?,
-        sections: String
-    ) {
-        client.getSearchedArticles(query, beginDate, endDate, sections)
+        params: SearchParam
+    ): Single<List<UiArticle>> {
+        return client.getSearchedArticles(
+            params.query,
+            params.startDate,
+            params.endDate,
+            params.sections
+        )
+            .map {
+                mapSearchResultToUi(it)
+            }
 
     }
+
+    private fun mapSearchResultToUi(searchResponse: SearchResponse): List<UiArticle> {
+        return searchResponse.response.docs.map {
+            val photoUrl = if (it.multimedia.size != 0) "https://static01.nyt.com/${it.multimedia[0].url}" else ""
+            UiArticle(
+                it.abstract,
+                it.published_date.subSequence(0, 10).toString(),
+                it.section.capitalize(),
+                it.url,
+                photoUrl
+            )
+        }
+    }
+
 
     fun loadArticles(articleType: ArticleType): Single<List<UiArticle>> {
         return when (articleType) {

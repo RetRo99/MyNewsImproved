@@ -30,7 +30,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.mynewsimproved.ui.mainactivity.MainActivity"/>
         </activity><activity
-                android:name=".ui.SearchResult"
+                android:name=".ui.searchResult.SearchResult"
                 android:label="@string/title_activity_search"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data

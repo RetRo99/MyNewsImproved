@@ -2,234 +2,124 @@ package com.example.mynewsimproved.ui.search
 
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
-import android.widget.CheckBox
-import android.widget.LinearLayout
-import android.widget.Toast
-import com.example.mynewsimproved.utils.createOrCancelAlarm
-import kotlinx.android.synthetic.main.activity_search.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
-import com.example.mynewsimproved.ui.SearchResult
+import com.example.mynewsimproved.ui.mainactivity.MainView
+import com.example.mynewsimproved.ui.searchResult.model.SearchParam
+import com.example.mynewsimproved.utils.SectionCheckboxes
+import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.section_checkboxes.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class SearchFragment : Fragment() {
-    private lateinit var startCalendar: Calendar
-    private lateinit var endCalendar: Calendar
     private var startDateConvertedString: String? = null
     private var endDateConvertedString: String? = null
+
+    private lateinit var parentView: MainView
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainView) {
+            parentView = context
+        } else {
+            throw Exception("must implement mainview interface")
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.activity_search, container, false)
-
+        return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        if (!intent.getBooleanExtra("Notification", true)) setSearchScreen()
-//        else {
-//            setNotificationScreen()
-//        }
-    }
-
-    private fun setNotificationScreen() {
-        val layout: LinearLayout = fragment_base_search_notification_date_management_linear_layout
-        layout.visibility = View.GONE
-        searchButton.visibility = View.GONE
-
-
-        var sections = String()
-        val checkboxes: ArrayList<CheckBox> = ArrayList()
-        checkboxes.add(checkboxArts)
-        checkboxes.add(checkboxBusiness)
-        checkboxes.add(checkboxEntrepreneurs)
-        checkboxes.add(checkboxPolitics)
-        checkboxes.add(checkboxSports)
-        checkboxes.add(checkboxTravel)
-
-
-        val sharedPrefSearchPreferences: SharedPreferences = requireContext().getSharedPreferences("search_params", Context.MODE_PRIVATE)
-        val stringList = sharedPrefSearchPreferences.getString("sections", null)?.split("\\s".toRegex())
-
-            for (item in checkboxes) {
-                if (stringList != null) {
-                    item.setOnClickListener{
-                        switchWidget.isChecked = false
-                    }
-                    for(string in stringList)
-                        if(string == item.text.toString()) item.isChecked = true
-                }
-            }
-        val queryString = sharedPrefSearchPreferences.getString("query", null).toString()
-
-        if(queryString != "null") queryEditText.setText(queryString)
-
-
-        if(sharedPrefSearchPreferences.getBoolean("isChecked", false)) switchWidget.isChecked = true
-        queryEditText.addTextChangedListener(object : TextWatcher {
-
-            override fun afterTextChanged(s: Editable) {}
-
-            override fun beforeTextChanged(
-                s: CharSequence, start: Int,
-                count: Int, after: Int
-            ) {
-            }
-
-            override fun onTextChanged(
-                s: CharSequence, start: Int,
-                before: Int, count: Int
-            ) {
-                switchWidget.isChecked = false
-            }
-        })
-
-
-        switchWidget.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-
-
-                for (item in checkboxes) {
-                    if (item.isChecked) {
-                        val section = item.text.toString()
-                        sections = "$sections $section"
-                    }
-
-                }
-
-            if (sections == "") {
-                    Toast.makeText(requireContext(), "You should pick at least one section", Toast.LENGTH_LONG).show()
-                    switchWidget.isChecked = false
-                } else {
-                val query = queryEditText.text.toString()
-
-                    sharedPrefSearchPreferences.edit().putString("query", query).apply()
-                    sharedPrefSearchPreferences.edit().putString("sections", sections).apply()
-                    sharedPrefSearchPreferences.edit().putBoolean("isChecked", true).apply()
-                    createOrCancelAlarm(requireContext(),true)
-                    Toast.makeText(requireContext(), "You will be reminded tomorrow at 7.00", Toast.LENGTH_LONG).show()
-
-            }
-            }else{
-                createOrCancelAlarm(requireContext(), false)
-                Toast.makeText(requireContext(), "Notifications disabled", Toast.LENGTH_LONG).show()
-
-            }
-
-        }
-
-    }
-
-    private fun setSearchScreen() {
-        startCalendar = Calendar.getInstance()
-        endCalendar = Calendar.getInstance()
-        switchWidget.visibility = View.GONE
-
-        val startDate = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            startCalendar.set(Calendar.YEAR, year)
-            startCalendar.set(Calendar.MONTH, monthOfYear)
-            startCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateStartEditText()
-        }
-        val endDate = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
-            endCalendar.set(Calendar.YEAR, year)
-            endCalendar.set(Calendar.MONTH, monthOfYear)
-            endCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateEndEditText()
-        }
-
         startEditText.setOnClickListener {
-            DatePickerDialog(
-                requireContext(), startDate, startCalendar
-                    .get(Calendar.YEAR), startCalendar.get(Calendar.MONTH),
-                startCalendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            showDatePickerDialog {
+                updateStartEditText(it)
+            }
         }
 
         endEditText.setOnClickListener {
-            DatePickerDialog(
-                requireContext(), endDate, startCalendar
-                    .get(Calendar.YEAR), startCalendar.get(Calendar.MONTH),
-                startCalendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            showDatePickerDialog {
+                updateEndEditText(it)
+            }
         }
         searchButton.setOnClickListener {
-            startActivity()
+            onSearchButtonClicked()
         }
     }
 
-    private fun updateStartEditText() {
+    private fun showDatePickerDialog(onDateSetAction: (Calendar) -> Unit) {
+        val calendar = Calendar.getInstance()
+
+        val listener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            calendar.apply {
+                set(Calendar.YEAR, year)
+                set(Calendar.MONTH, monthOfYear)
+                set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+            }
+            onDateSetAction(calendar)
+        }
+
+        DatePickerDialog(
+            requireContext(), listener, calendar
+                .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
+
+    }
+
+    private fun updateStartEditText(calendar: Calendar) {
         val myFormat = "MM-dd-yyyy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.FRANCE)
 
-        startEditText.setText(sdf.format(startCalendar.time))
-        startDateConvertedString = SimpleDateFormat("yyyyMMdd", Locale.FRANCE).format(startCalendar.time)
+        startEditText.setText(sdf.format(calendar.time))
+        startDateConvertedString =
+            SimpleDateFormat("yyyyMMdd", Locale.FRANCE).format(calendar.time)
     }
 
-    private fun updateEndEditText() {
+    private fun updateEndEditText(calendar: Calendar) {
         val myFormat = "MM-dd-yyyy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.FRANCE)
-        endEditText.setText(sdf.format(endCalendar.time))
-        endDateConvertedString = SimpleDateFormat("yyyyMMdd", Locale.FRANCE).format(endCalendar.time)
+        endEditText.setText(sdf.format(calendar.time))
+        endDateConvertedString = SimpleDateFormat("yyyyMMdd", Locale.FRANCE).format(calendar.time)
 
     }
 
-    private fun startActivity() {
+    private fun onSearchButtonClicked() {
 
         val query = queryEditText.text.toString()
 
-        var sections = String()
-        val checkboxes: ArrayList<CheckBox> = ArrayList()
-        checkboxes.add(checkboxArts)
-        checkboxes.add(checkboxBusiness)
-        checkboxes.add(checkboxEntrepreneurs)
-        checkboxes.add(checkboxPolitics)
-        checkboxes.add(checkboxSports)
-        checkboxes.add(checkboxTravel)
+        val sections = (section_checkboxes as SectionCheckboxes).sectionsText
 
-        for (item in checkboxes) {
-            if (item.isChecked) {
-                val section = item.text.toString()
-                sections = "$sections $section"
-            }
-
+         when {
+            sections.isEmpty() && query.isEmpty() -> showToast(R.string.toast_one_section_and_parimeter)
+            sections.isEmpty() -> showToast(R.string.toast_one_section)
+            query.isEmpty() -> showToast(R.string.toast_one_parameter)
+            else -> parentView.fromSearchToSearchResult(SearchParam(query, startDateConvertedString, endDateConvertedString, sections))
         }
+    }
 
-        if (sections == "" && query == "") {
-            Toast.makeText(
-                requireContext(),
-                "You should enter at least one parameter and pick at least one section",
-                Toast.LENGTH_LONG
-            ).show()
-        } else if (sections == "") {
-            Toast.makeText(requireContext(), "You should pick at least one section", Toast.LENGTH_LONG).show()
-        } else if (query == "") {
-            Toast.makeText(requireContext(), "You should enter at least one parameter", Toast.LENGTH_LONG).show()
+    private fun showToast(@StringRes msg: Int) {
+        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+    }
 
-        } else {
-            val searchResultIntent = Intent(requireContext(), SearchResult::class.java)
-            searchResultIntent.putExtra("query", query)
-            searchResultIntent.putExtra("startDateConvertedString", startDateConvertedString)
-            searchResultIntent.putExtra("endDateConvertedString", endDateConvertedString)
-            searchResultIntent.putExtra("sections", sections)
-
-            startActivity(searchResultIntent)
-
-        }
+    companion object {
+        fun newInstance() = SearchFragment()
     }
 }

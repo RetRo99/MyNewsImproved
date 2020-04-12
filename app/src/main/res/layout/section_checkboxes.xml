@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+        android:id="@+id/sections"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+       >
+
+        <!-- 3 Left checkBoxes -->
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+            <CheckBox
+                    android:id="@+id/checkboxArts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/fragment_base_search_arts"
+                    android:textSize="15sp"/>
+
+            <CheckBox
+                    android:id="@+id/checkboxBusiness"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/fragment_base_search_business"
+                    android:textSize="15sp"/>
+
+            <CheckBox
+                    android:id="@+id/checkboxEntrepreneurs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/fragment_base_search_entrepreneurs"
+                    android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <!-- 3 right CheckBoxes -->
+        <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+            <CheckBox
+                    android:id="@+id/checkboxPolitics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/fragment_base_search_politics"
+                    android:textSize="15sp"/>
+
+            <CheckBox
+                    android:id="@+id/checkboxSports"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/fragment_base_search_sports"
+                    android:textSize="15sp"/>
+
+            <CheckBox
+                    android:id="@+id/checkboxTravel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/fragment_base_search_travel"
+                    android:textSize="15sp"/>
+
+        </LinearLayout>
+
+</merge>

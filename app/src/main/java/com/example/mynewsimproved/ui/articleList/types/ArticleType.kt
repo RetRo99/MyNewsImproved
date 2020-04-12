@@ -1,4 +1,4 @@
-package com.example.mynewsimproved.ui.article.types
+package com.example.mynewsimproved.ui.articleList.types
 
 sealed class ArticleType {
 
