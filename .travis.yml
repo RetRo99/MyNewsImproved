@@ -27,5 +27,5 @@ android:
     - sys-img-x86-android-26
     - sys-img-armeabi-v7a-android-17
 
-    script:
-        - chmod +x ./gradlew build connectedCheck
+script:
+  - chmod +x ./gradlew build connectedCheck
