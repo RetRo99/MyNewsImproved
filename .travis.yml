@@ -1,6 +1,7 @@
 language: android
 dist: trusty
 sudo: true
+jdk: openjdk8
 cache:
   directories:
     - $HOME/.m2
