@@ -35,15 +35,7 @@ class NotificationFragment : Fragment() {
         val sharedPrefSearchPreferences: SharedPreferences = requireContext().getSharedPreferences("search_params", Context.MODE_PRIVATE)
         val stringList = sharedPrefSearchPreferences.getString("sections", null)?.split("\\s".toRegex())
 
-        for (item in checkboxes) {
-            if (stringList != null) {
-                item.setOnClickListener{
-//                    switchWidget.isChecked = false
-                }
-                for(string in stringList)
-                    if(string == item.text.toString()) item.isChecked = true
-            }
-        }
+
         val queryString = sharedPrefSearchPreferences.getString("query", null).toString()
 
         if(queryString != "null") queryEditText.setText(queryString)
