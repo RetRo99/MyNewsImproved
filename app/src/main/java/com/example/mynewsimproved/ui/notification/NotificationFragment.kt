@@ -28,19 +28,9 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //dateLayout.visibility = View.GONE
-        searchButton.visibility = View.GONE
 
 
         var sections = String()
-        val checkboxes: ArrayList<CheckBox> = ArrayList()
-//        checkboxes.add(checkboxArts)
-//        checkboxes.add(checkboxBusiness)
-//        checkboxes.add(checkboxEntrepreneurs)
-//        checkboxes.add(checkboxPolitics)
-//        checkboxes.add(checkboxSports)
-//        checkboxes.add(checkboxTravel)
-
 
         val sharedPrefSearchPreferences: SharedPreferences = requireContext().getSharedPreferences("search_params", Context.MODE_PRIVATE)
         val stringList = sharedPrefSearchPreferences.getString("sections", null)?.split("\\s".toRegex())
