@@ -7,19 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.ToolbarListener
 import com.example.mynewsimproved.ui.home.adapter.ArticlePagerAdapter
 import com.example.mynewsimproved.ui.mainactivity.MainView
 import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment :Fragment(){
+class HomeFragment : Fragment() {
 
     private lateinit var mainView: MainView
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is MainView){
+        if (context is MainView) {
             mainView = context
-        }else {
+        } else {
             throw Exception("must implement mainview interface")
         }
     }
@@ -44,5 +45,4 @@ class HomeFragment :Fragment(){
             )
         pager.offscreenPageLimit = 3
     }
-
 }

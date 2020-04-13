@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.ToolbarListener
 import com.example.mynewsimproved.ui.articleList.adapter.ArticleAdapter
 import com.example.mynewsimproved.ui.articleList.model.UiArticle
 import com.example.mynewsimproved.ui.articleList.types.ArticleType

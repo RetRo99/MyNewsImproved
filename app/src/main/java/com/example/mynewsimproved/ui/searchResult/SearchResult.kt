@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.ToolbarListener
 import com.example.mynewsimproved.ui.articleList.adapter.ArticleAdapter
 import com.example.mynewsimproved.ui.articleList.model.UiArticle
 import com.example.mynewsimproved.ui.mainactivity.MainView
@@ -19,7 +20,7 @@ import com.example.mynewsimproved.ui.searchResult.model.SearchParam
 import kotlinx.android.synthetic.main.fragment_search_result.*
 
 
-class SearchResult : Fragment(), SearchResultView {
+class SearchResult : Fragment(), SearchResultView, ToolbarListener {
 
     private lateinit var params: SearchParam
     private lateinit var presenter: SearchResultPresenter
@@ -62,7 +63,7 @@ class SearchResult : Fragment(), SearchResultView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupToolbar()
         presenter = SearchResultPresenter(this, parentView)
 
         val windowToken = view.rootView?.windowToken
@@ -121,5 +122,9 @@ class SearchResult : Fragment(), SearchResultView {
             }
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()    }
+
+    override fun setupToolbar() {
+        parentView.setupToolbar(R.string.search_result_title, R.drawable.ic_back)
+    }
 
 }

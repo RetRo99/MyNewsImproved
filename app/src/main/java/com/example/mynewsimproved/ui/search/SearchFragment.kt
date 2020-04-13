@@ -6,20 +6,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.ToolbarListener
 import com.example.mynewsimproved.ui.mainactivity.MainView
 import com.example.mynewsimproved.ui.searchResult.model.SearchParam
-import com.example.mynewsimproved.utils.SectionCheckboxes
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.section_checkboxes.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(), ToolbarListener {
     private var startDateConvertedString: String? = null
     private var endDateConvertedString: String? = null
 
@@ -46,6 +46,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
 
         startEditText.setOnClickListener {
             showDatePickerDialog {
@@ -112,7 +113,7 @@ class SearchFragment : Fragment() {
             sections.isEmpty() -> showToast(R.string.toast_one_section)
             query.isEmpty() -> showToast(R.string.toast_one_parameter)
             else -> parentView.fromSearchToSearchResult(SearchParam(query, startDateConvertedString, endDateConvertedString, sections))
-        }
+         }
     }
 
     private fun showToast(@StringRes msg: Int) {
@@ -122,4 +123,9 @@ class SearchFragment : Fragment() {
     companion object {
         fun newInstance() = SearchFragment()
     }
+
+    override fun setupToolbar() {
+        parentView.setupToolbar(R.string.search_title, R.drawable.ic_back)
+    }
+
 }

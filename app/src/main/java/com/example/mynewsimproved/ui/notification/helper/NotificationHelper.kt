@@ -75,7 +75,7 @@ class NotificationHelper(val context: Context) {
         val builder = NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
             .setSmallIcon(R.drawable.search)
             .setContentTitle(context.getString(R.string.notification_new_title))
-            .setContentText(context.getString(R.string.notificaiton_new_subtitle))
+            .setContentText(context.getString(R.string.notification_new_subtitle))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingMainActivityIntent)
             .setAutoCancel(true)

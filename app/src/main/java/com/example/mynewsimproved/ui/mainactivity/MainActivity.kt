@@ -3,11 +3,11 @@ package com.example.mynewsimproved.ui.mainactivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.home.HomeFragment
 import com.example.mynewsimproved.ui.notification.NotificationFragment
 import com.example.mynewsimproved.ui.search.SearchFragment
 import com.example.mynewsimproved.ui.searchResult.SearchResult
@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     MainView {
 
@@ -25,20 +26,31 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        if(intent.getBooleanExtra(EXTRA_IS_NOTIFICATION, false)){
+        if (intent.getBooleanExtra(EXTRA_IS_NOTIFICATION, false)) {
             fromSearchToSearchResult()
         }
 
-        val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
-        )
+        toolbar.setNavigationIcon(R.drawable.ic_menu)
+        toolbar.title = getString(R.string.title_home)
 
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
 
-        nav_view.setNavigationItemSelectedListener(this)
+        supportFragmentManager.addOnBackStackChangedListener {
+            if (supportFragmentManager.findFragmentById(R.id.fragment_container) is HomeFragment) {
+                toolbar.setNavigationIcon(R.drawable.ic_menu)
+                toolbar.title = getString(R.string.title_home)
+
+            }
+        }
+
+        toolbar.setNavigationOnClickListener {
+            if (supportFragmentManager.findFragmentById(R.id.fragment_container) is HomeFragment) {
+                drawer_layout.openDrawer(GravityCompat.START)
+            }
+            else{
+                supportFragmentManager.popBackStack()
+            }
+        }
+
 
     }
 
@@ -60,8 +72,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> true // TODO to settings
-            R.id.action_notification -> toNotificationScreen()
-            R.id.searchButton -> toSearchFragment()
+            R.id.action_notification -> fromHomeToNotificationScreen()
+            R.id.searchButton -> fromHomeToSearchFragment()
             else -> super.onOptionsItemSelected(item)
         }
         return true
@@ -79,7 +91,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 tab_layout?.getTabAt(0)?.select()
             }
             R.id.nav_notifications -> {
-                toNotificationScreen()
+                fromHomeToNotificationScreen()
             }
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
@@ -89,26 +101,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun fromSearchToSearchResult(searchParam: SearchParam) {
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, SearchResult.newInstance(searchParam)).addToBackStack(null)
+            .add(R.id.fragment_container, SearchResult.newInstance(searchParam))
+            .addToBackStack(null)
             .commit()
     }
 
-     fun fromSearchToSearchResult() {
+    override fun setupToolbar(title: Int, icon: Int) {
+        toolbar.setNavigationIcon(icon)
+        toolbar.title = getString(title)
+
+    }
+
+    private fun fromSearchToSearchResult() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, SearchResult.newInstance()).addToBackStack(null)
             .commit()
     }
 
-    private fun toNotificationScreen() {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, NotificationFragment.newInstance())
-            .addToBackStack(null).commit()
+    private fun fromHomeToNotificationScreen() {
+        if (!isFragmentAlreadyAdded(NOTIFICATION_FRAGMENT_TAG)) {
+            supportFragmentManager.beginTransaction()
+                .add(
+                    R.id.fragment_container,
+                    NotificationFragment.newInstance(),
+                    NOTIFICATION_FRAGMENT_TAG
+                )
+                .addToBackStack(null).commit()
+        }
     }
 
-    private fun toSearchFragment() {
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, SearchFragment.newInstance())
-            .addToBackStack(null).commit()
+    private fun fromHomeToSearchFragment() {
+        if (!isFragmentAlreadyAdded(SEARCH_FRAGMENT_TAG)) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, SearchFragment.newInstance(), SEARCH_FRAGMENT_TAG)
+                .addToBackStack(null).commit()
+        }
     }
 
     override fun fromHomeToWeb(url: String) {
@@ -118,8 +145,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    private fun isFragmentAlreadyAdded(tag: String): Boolean {
+        return supportFragmentManager.findFragmentByTag(tag)?.isAdded ?: false
+
+    }
+
     companion object {
         const val EXTRA_IS_NOTIFICATION =
             "com.example.mynewsimproved.ui.mainactivity.extraIsNotificiation"
+
+        private const val SEARCH_FRAGMENT_TAG =
+            "com.example.mynewsimproved.ui.mainactivity.searchFragment"
+
+        private const val NOTIFICATION_FRAGMENT_TAG =
+            "com.example.mynewsimproved.ui.mainactivity.notificationFragment"
     }
 }

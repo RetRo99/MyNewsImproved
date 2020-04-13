@@ -1,5 +1,6 @@
 package com.example.mynewsimproved.ui.web
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,12 +10,26 @@ import android.webkit.WebViewClient
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.ToolbarListener
+import com.example.mynewsimproved.ui.mainactivity.MainView
 import kotlinx.android.synthetic.main.fragment_webview.*
 
 
-class WebViewFragment : Fragment() {
+class WebViewFragment : Fragment(), ToolbarListener {
 
     private lateinit var url: String
+
+    private lateinit var parentView: MainView
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is MainView) {
+            parentView = context
+        } else {
+            throw Exception("must implement mainview interface")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +50,7 @@ class WebViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupToolbar()
         swipeLayout.apply {
             isRefreshing = true
             setOnRefreshListener {
@@ -58,6 +74,10 @@ class WebViewFragment : Fragment() {
         fun newInstance(url: String) = WebViewFragment().apply {
             arguments = bundleOf(ARG_URL to url)
         }
+    }
+
+    override fun setupToolbar() {
+        parentView.setupToolbar(R.string.webview_title, R.drawable.ic_back)
     }
 
 }

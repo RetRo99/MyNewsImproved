@@ -41,7 +41,12 @@ class SearchResultPresenter(private val view: SearchResultView, private val pare
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
-                    view.showData(it)
+                    if (it.isNotEmpty()) {
+                        view.showData(it)
+                    } else {
+                        view.showNoResultDialog()
+                    }
+
                 },
                 onError = {
                     it.printStackTrace()
