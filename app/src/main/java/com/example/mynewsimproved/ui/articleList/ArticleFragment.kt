@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.example.mynewsimproved.R
 import com.example.mynewsimproved.ui.ToolbarListener
@@ -14,9 +15,10 @@ import com.example.mynewsimproved.ui.articleList.types.ArticleType
 import com.example.mynewsimproved.ui.mainactivity.MainView
 import kotlinx.android.synthetic.main.fragment_article.*
 
-class ArticleFragment : Fragment(), ArticleView {
+class ArticleFragment : Fragment(), ArticleView, ToolbarListener {
 
     private lateinit var storyType: String
+    private var updateToolbar = false
     private lateinit var sealedArticleType: ArticleType
     private lateinit var presenter: ArticleFragmentPresenter
     private lateinit var parentView: MainView
@@ -37,6 +39,8 @@ class ArticleFragment : Fragment(), ArticleView {
         arguments?.let {
             storyType = it.getString(STORY_TYPE) ?: ""
 
+            updateToolbar = it.getBoolean(UPDATE_TOOLBAR)
+
             sealedArticleType = if (storyType.isNotEmpty()) {
                 ArticleType.TopStories(storyType)
             } else {
@@ -55,6 +59,8 @@ class ArticleFragment : Fragment(), ArticleView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (updateToolbar) setupToolbar()
+
         presenter = ArticleFragmentPresenter(this, parentView)
 
         swipeLayout.setOnRefreshListener {
@@ -84,15 +90,41 @@ class ArticleFragment : Fragment(), ArticleView {
 
     companion object {
 
-        private const val STORY_TYPE = "story_type"
+        private const val STORY_TYPE = "com.example.mynewsimproved.ui.articleList.storyType"
+        private const val UPDATE_TOOLBAR = "com.example.mynewsimproved.ui.articleList.updateToolbar"
+
+        const val TYPE_HOME = "home"
+        const val TYPE_TECHNOLOGY = "technology"
+        const val TYPE_ARTS = "arts"
+        const val TYPE_AUTOMOBILES = "automobiles"
+        const val TYPE_BOOKS = "books"
+        const val TYPE_BUSINESS = "business"
+        const val TYPE_FASHION = "fashion"
+        const val TYPE_FOOD = "food"
+        const val TYPE_HEALTH = "health"
+
 
         @JvmStatic
-        fun newInstance(storyType: String = "") =
+        fun newInstance(storyType: String = "", updateToolbar: Boolean = true) =
             ArticleFragment().apply {
-                arguments = Bundle().apply {
-                    putString(STORY_TYPE, storyType)
-                }
+                arguments = bundleOf(
+                    STORY_TYPE to storyType, UPDATE_TOOLBAR to updateToolbar
+                )
             }
 
+    }
+
+    override fun setupToolbar() {
+        val titleRes = when (storyType) {
+            TYPE_ARTS -> R.string.type_arts
+            TYPE_AUTOMOBILES -> R.string.type_automobiles
+            TYPE_BOOKS -> R.string.type_books
+            TYPE_BUSINESS -> R.string.type_business
+            TYPE_FASHION -> R.string.type_fashion
+            TYPE_FOOD -> R.string.type_food
+            TYPE_HEALTH -> R.string.type_health
+            else -> throw Exception("unknown type")
+        }
+        parentView.setupToolbar(titleRes, R.drawable.ic_back)
     }
 }

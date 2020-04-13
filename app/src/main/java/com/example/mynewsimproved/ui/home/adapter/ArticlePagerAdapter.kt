@@ -22,9 +22,9 @@ class ArticlePagerAdapter(
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> ArticleFragment.newInstance()
-            1 -> ArticleFragment.newInstance("home")
-            2 -> ArticleFragment.newInstance("technology")
+            0 -> ArticleFragment.newInstance(updateToolbar = false)
+            1 -> ArticleFragment.newInstance(ArticleFragment.TYPE_HOME, false)
+            2 -> ArticleFragment.newInstance(ArticleFragment.TYPE_TECHNOLOGY, false)
             else -> throw (Throwable("Unsupported position"))
 
         }

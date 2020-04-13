@@ -62,4 +62,11 @@
     <string name="search_title">Search Articles</string>
     <string name="search_result_title">Search Results</string>
     <string name="webview_title">Article</string>
+    <string name="type_arts">Arts</string>
+    <string name="type_automobiles">Automobiles</string>
+    <string name="type_books">Books</string>
+    <string name="type_business">Business</string>
+    <string name="type_fashion">Fashion</string>
+    <string name="type_food">Food</string>
+    <string name="type_health">Health</string>
 </resources>
