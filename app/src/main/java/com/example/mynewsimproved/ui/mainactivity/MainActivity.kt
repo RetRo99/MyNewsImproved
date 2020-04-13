@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.notification.NotificationFragment
 import com.example.mynewsimproved.ui.search.SearchFragment
 import com.example.mynewsimproved.ui.searchResult.SearchResult
 import com.example.mynewsimproved.ui.searchResult.model.SearchParam
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        if(intent.getBooleanExtra(EXTRA_IS_NOTIFICATION, false)){
+            fromSearchToSearchResult()
+        }
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
@@ -88,15 +93,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .commit()
     }
 
+     fun fromSearchToSearchResult() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, SearchResult.newInstance()).addToBackStack(null)
+            .commit()
+    }
+
     private fun toNotificationScreen() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, SearchFragment.newInstance())
+            .add(R.id.fragment_container, NotificationFragment.newInstance())
             .addToBackStack(null).commit()
     }
 
     private fun toSearchFragment() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, SearchFragment.newInstance( ))
+            .add(R.id.fragment_container, SearchFragment.newInstance())
             .addToBackStack(null).commit()
     }
 
@@ -105,5 +116,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             .add(R.id.fragment_container, WebViewFragment.newInstance(url)).addToBackStack(null)
             .commit()
 
+    }
+
+    companion object {
+        const val EXTRA_IS_NOTIFICATION =
+            "com.example.mynewsimproved.ui.mainactivity.extraIsNotificiation"
     }
 }

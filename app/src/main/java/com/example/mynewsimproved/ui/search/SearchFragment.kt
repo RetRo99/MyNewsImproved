@@ -105,7 +105,7 @@ class SearchFragment : Fragment() {
 
         val query = queryEditText.text.toString()
 
-        val sections = (section_checkboxes as SectionCheckboxes).sectionsText
+        val sections = section_checkboxes.sectionsText
 
          when {
             sections.isEmpty() && query.isEmpty() -> showToast(R.string.toast_one_section_and_parimeter)

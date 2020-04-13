@@ -12,18 +12,26 @@ class SectionCheckboxes(context: Context, attrs: AttributeSet?) : LinearLayout(c
 
     private val checkboxes: ArrayList<CheckBox> = ArrayList()
 
-    val sectionsText: String
+    var sectionsText: String
         get() {
             var sections = String()
 
-            for (item in checkboxes) {
-                if (item.isChecked) {
-                    val section = item.text.toString()
+            checkboxes.forEach {
+                if (it.isChecked) {
+                    val section = it.text.toString()
                     sections += " $section"
                 }
 
             }
             return sections
+        }
+        set(value) {
+            checkboxes.forEach {
+                if(value.contains(it.text.toString(), true)){
+                    it.isChecked = true
+                }
+            }
+
         }
 
 

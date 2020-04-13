@@ -52,4 +52,9 @@
     <string name="toast_one_section">You should pick at least one section</string>
     <string name="no_results">No results</string>
     <string name="try_again_different_params">Try searching with different parameters</string>
+    <string name="enable_notifications">Enable notifications (once per day)</string>
+    <string name="notification_new_title">There are new articles</string>
+    <string name="notificaiton_new_subtitle">open the app to see notifications matching your criteria</string>
+    <string name="notificaitons_disabled">Notifications disabled</string>
+    <string name="notificaiton_time">You will be reminded tomorrow at 7.00</string>
 </resources>

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import com.example.mynewsimproved.api.retrofit.ApiClient
-import com.example.mynewsimproved.utils.createOrCancelAlarm
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,7 +18,7 @@ class AlarmReceiver : BroadcastReceiver() {
         when (intent?.action) {
             //If it is a reboot it registers alarm again and check if it needs to save the day
             Intent.ACTION_BOOT_COMPLETED -> {
-                createOrCancelAlarm(context, true)
+              //  createOrCancelAlarm(context, true)
 
             }
             //if it it our action then it saves the day
@@ -29,6 +28,7 @@ class AlarmReceiver : BroadcastReceiver() {
                 val myFormat = "yyyyMMdd"
                 val sdf = SimpleDateFormat(myFormat, Locale.FRANCE)
                 val date = Date()
+                sdf.format(date)
 
                 val sharedPrefSearchPreferences: SharedPreferences =
                     context.getSharedPreferences("search_params", Context.MODE_PRIVATE)

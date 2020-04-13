@@ -1,5 +1,6 @@
 package com.example.mynewsimproved.ui.searchResult
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
@@ -13,13 +14,14 @@ import com.example.mynewsimproved.R
 import com.example.mynewsimproved.ui.articleList.adapter.ArticleAdapter
 import com.example.mynewsimproved.ui.articleList.model.UiArticle
 import com.example.mynewsimproved.ui.mainactivity.MainView
+import com.example.mynewsimproved.ui.notification.helper.NotificationHelper
 import com.example.mynewsimproved.ui.searchResult.model.SearchParam
 import kotlinx.android.synthetic.main.fragment_search_result.*
 
 
 class SearchResult : Fragment(), SearchResultView {
 
-    private lateinit var param: SearchParam
+    private lateinit var params: SearchParam
     private lateinit var presenter: SearchResultPresenter
 
     private lateinit var parentView: MainView
@@ -38,10 +40,17 @@ class SearchResult : Fragment(), SearchResultView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            param = it.getParcelable(ARG_SEARCH_PARAM) ?: throw Exception("params must be provided")
+        params = if (arguments != null) {
+            requireArguments().getParcelable(ARG_SEARCH_PARAM) ?: throw Exception("params must be provided")
+        }else{
+            NotificationHelper(requireContext()).run {
+                getSearchParams()
+            }
         }
+
+
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,18 +63,20 @@ class SearchResult : Fragment(), SearchResultView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-
         presenter = SearchResultPresenter(this, parentView)
+
+        val windowToken = view.rootView?.windowToken
+        windowToken?.let {
+            val imm = requireContext().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(windowToken, 0)
+        }
 
         swipeLayout.setOnRefreshListener {
             presenter.onRefresh()
         }
 
 
-        presenter.onViewCreated(param)
+        presenter.onViewCreated(params)
     }
 
     override fun onDestroy() {
@@ -81,6 +92,9 @@ class SearchResult : Fragment(), SearchResultView {
         fun newInstance(params: SearchParam) = SearchResult().apply {
             arguments = bundleOf(ARG_SEARCH_PARAM to params)
         }
+
+        fun newInstance() = SearchResult()
+
     }
 
     override fun showLoading() {
@@ -98,7 +112,6 @@ class SearchResult : Fragment(), SearchResultView {
     }
 
     override fun showNoResultDialog() {
-
         AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.no_results))
             .setMessage(getString(R.string.try_again_different_params))
