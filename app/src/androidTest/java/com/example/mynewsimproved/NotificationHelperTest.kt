@@ -1,8 +1,9 @@
-package com.example.mynewsimproved.ui.notification.helper
+package com.example.mynewsimproved
 
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.mynewsimproved.ui.notification.helper.NotificationHelper
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
@@ -18,7 +19,10 @@ class NotificationHelperTest {
 
     @Before
     fun setUp() {
-        helper = NotificationHelper(ApplicationProvider.getApplicationContext())
+        helper =
+            NotificationHelper(
+                ApplicationProvider.getApplicationContext()
+            )
     }
 
     @Test
