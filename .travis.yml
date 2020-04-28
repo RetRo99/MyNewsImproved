@@ -31,9 +31,7 @@ android:
     - sys-img-armeabi-v7a-android-19
 
 script:
-  - android list target
   - chmod +x ./gradlew
-  - ./gradlew debugAndroidTest
   - ./gradlew test
 
 
