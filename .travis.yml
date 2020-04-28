@@ -32,6 +32,6 @@ android:
 
 script:
   - chmod +x ./gradlew
-  - ./gradlew assembleDebugAndroidTest
-  - ./gradlew app:compileDebugUnitTestKotlin
+  - ./gradlew assembleDebugAndroidTest --warning-mode all
+  - ./gradlew app:compileDebugUnitTestKotlin --warning-mode all
 
