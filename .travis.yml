@@ -33,5 +33,5 @@ android:
 script:
   - chmod +x ./gradlew
   - ./gradlew assembleDebugAndroidTest
-  - ./gradlew compileDebugUnitTestKotlin
+  - ./gradlew app:compileDebugUnitTestKotlin
 
