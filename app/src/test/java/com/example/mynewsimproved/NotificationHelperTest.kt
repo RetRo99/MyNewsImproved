@@ -26,7 +26,7 @@ class NotificationHelperTest {
 
     @Test
     fun getQuery() {
-        helper.query = "query"
+        helper.query = "que1ry"
         assertThat(helper.query, `is`("query"))
     }
 
