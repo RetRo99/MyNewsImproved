@@ -6,7 +6,6 @@ data class SearchResponse(val response: ResponseSearch) {
     data class ResponseSearch(val docs: ArrayList<SearchedArticle>) {
         data class SearchedArticle(
             @SerializedName("pub_date")val published_date: String, @SerializedName("web_url") val url: String,
-            val news_desk: String,
             val abstract: String,
             val multimedia: ArrayList<SearchMedia>,
             @SerializedName("section_name") val section :String,

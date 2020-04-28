@@ -1,4 +1,4 @@
-package com.example.mynewsimproved.ui.mainactivity
+package com.example.mynewsimproved
 
 
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import com.example.mynewsimproved.R
+import com.example.mynewsimproved.ui.mainactivity.MainActivity
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
