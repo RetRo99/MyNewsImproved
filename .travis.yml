@@ -33,6 +33,6 @@ android:
 script:
   - chmod +x ./gradlew
   - ./gradlew assembleDebugAndroidTest
-  - ./gradlew [:app:generateDebugSources, :app:compileDebugSources, :app:createMockableJar, :app:compileDebugUnitTestSources]
+  - ./gradlew :app:generateDebugSources, :app:compileDebugSources, :app:createMockableJar, :app:compileDebugUnitTestSources
 
 
