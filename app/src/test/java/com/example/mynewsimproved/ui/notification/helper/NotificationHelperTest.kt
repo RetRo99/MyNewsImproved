@@ -1,9 +1,8 @@
-package com.example.mynewsimproved
+package com.example.mynewsimproved.ui.notification.helper
 
 
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.mynewsimproved.ui.notification.helper.NotificationHelper
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
