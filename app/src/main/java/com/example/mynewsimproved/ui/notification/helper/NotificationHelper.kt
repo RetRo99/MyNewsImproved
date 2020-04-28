@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class NotificationHelper(val context: Context) {
+class NotificationHelper(private val context: Context) {
 
     private val sharedPrefSearchPreferences: SharedPreferences =
         context.getSharedPreferences(SHARED_PREFERENCES__KEY, Context.MODE_PRIVATE)
@@ -85,6 +85,8 @@ class NotificationHelper(val context: Context) {
             notify(NEW_ARTICLES_NOTIFICATION_ID, builder.build())
 
         }
+
+        //TODO only show if there are new articles matching criteria
     }
 
     fun getSearchParams(): SearchParam {
