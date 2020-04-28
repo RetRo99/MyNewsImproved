@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> true // TODO to settings
             R.id.action_notification -> fromHomeToNotificationScreen()
             R.id.searchButton -> fromHomeToSearchFragment()
             else -> super.onOptionsItemSelected(item)

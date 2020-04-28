@@ -30,3 +30,5 @@ android:
 
 script:
   - chmod +x ./gradlew
+  - ./gradlew assembleDebugAndroidTest
+
