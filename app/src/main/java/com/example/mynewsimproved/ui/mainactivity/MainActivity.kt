@@ -15,6 +15,7 @@ import com.example.mynewsimproved.ui.searchResult.SearchResult
 import com.example.mynewsimproved.ui.searchResult.model.SearchParam
 import com.example.mynewsimproved.ui.web.WebViewFragment
 import com.google.android.material.navigation.NavigationView
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+
+        //starting time library
+        AndroidThreeTen.init(this)
 
         if (intent.getBooleanExtra(EXTRA_IS_NOTIFICATION, false)) {
             fromSearchToSearchResult()

@@ -19,6 +19,7 @@ import com.example.mynewsimproved.ui.notification.worker.NotificationWorker
 import kotlinx.android.synthetic.main.fragment_notification.*
 import kotlinx.android.synthetic.main.fragment_notification.section_checkboxes
 import kotlinx.android.synthetic.main.fragment_search.queryEditText
+import org.threeten.bp.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 class NotificationFragment() : Fragment(), ToolbarListener {
@@ -96,8 +97,26 @@ class NotificationFragment() : Fragment(), ToolbarListener {
 
 
     private fun setupNotificationWorker() {
-        val work = PeriodicWorkRequestBuilder<NotificationWorker>(15, TimeUnit.MINUTES)
+
+
+        val ldt = LocalDateTime.now()
+        val secondsInDay = 86400L
+        val sevenHoursInSeconds = 25200L
+        var timeUntilFirst = 0L
+
+        val secondsUntilMidnight = secondsInDay - ldt.toLocalTime().toSecondOfDay()
+
+        val nowInSeconds = ldt.toLocalTime().toSecondOfDay()
+
+        timeUntilFirst = if (nowInSeconds > sevenHoursInSeconds) {
+            secondsUntilMidnight + sevenHoursInSeconds
+        } else {
+            sevenHoursInSeconds - nowInSeconds
+        }
+
+        val work = PeriodicWorkRequestBuilder<NotificationWorker>(timeUntilFirst, TimeUnit.MINUTES)
             .build()
+
 
         val workManager = WorkManager.getInstance(requireContext())
         workManager.enqueueUniquePeriodicWork(
